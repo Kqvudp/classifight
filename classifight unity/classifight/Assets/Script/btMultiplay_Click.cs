@@ -5,12 +5,12 @@ using UnityEngine.UI;
 
 public class btMultiplay_Click : MonoBehaviour
 {
-    public Canvas canvas;
-    
+    public GameObject panel;
+    public GameObject button;
     
     public void click()
     {
-        canvas.GetComponent<Canvas>();
-        canvas.enabled = true;
+        panel.SetActive(true);
+        button.SetActive(false);
     }
 }
