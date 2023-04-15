@@ -36,19 +36,32 @@ public class PlayerMovement : MonoBehaviour
         if (checkJump && IsGrounded())
         {
             rg.velocity = new Vector2(dirX * rg.velocity.x, JumpForce);
-        }
-
-        if (checkAttack)
-        {
-            state = MovementState.attacking;
-        }
-        else if (checkAttack && checkJump)
-        {
-            state = MovementState.jmpattacking;
+            if (checkAttack)
+            {
+                state = MovementState.jmpattacking;
+            }
+            else
+            {
+                state = MovementState.jumping;
+            }
         }
         else
         {
-            Move();
+            if (checkAttack)
+            {
+                if (IsGrounded())
+                {
+                    state = MovementState.attacking;
+                }
+                else
+                {
+                    state = MovementState.jmpattacking;
+                }
+            }
+            else
+            {
+                Move();
+            }
         }
         anim.SetInteger("state", (int)state);
     }
