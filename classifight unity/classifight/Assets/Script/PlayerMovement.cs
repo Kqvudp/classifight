@@ -12,7 +12,7 @@ public class PlayerMovement : MonoBehaviour
 
     private float dirX = 0f;
     private float MoveSpeed = 7f;
-    private float JumpForce = 14f;
+    [SerializeField]private float JumpForce = 14f;
     private bool checkJump = false;
     private bool checkAttack = false;
     private MovementState state;
