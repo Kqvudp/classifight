@@ -12,7 +12,7 @@ public class PlayerMovement : MonoBehaviour
 
     private float dirX = 0f;
     private float MoveSpeed = 7f;
-    private float JumpForce = 14f;
+    [SerializeField]private float JumpForce = 14f;
     private bool checkJump = false;
     private bool checkAttack = false;
     private MovementState state;
@@ -36,19 +36,32 @@ public class PlayerMovement : MonoBehaviour
         if (checkJump && IsGrounded())
         {
             rg.velocity = new Vector2(dirX * rg.velocity.x, JumpForce);
-        }
-
-        if (checkAttack)
-        {
-            state = MovementState.attacking;
-        }
-        else if (checkAttack && checkJump)
-        {
-            state = MovementState.jmpattacking;
+            if (checkAttack)
+            {
+                state = MovementState.jmpattacking;
+            }
+            else
+            {
+                state = MovementState.jumping;
+            }
         }
         else
         {
-            Move();
+            if (checkAttack)
+            {
+                if (IsGrounded())
+                {
+                    state = MovementState.attacking;
+                }
+                else
+                {
+                    state = MovementState.jmpattacking;
+                }
+            }
+            else
+            {
+                Move();
+            }
         }
         anim.SetInteger("state", (int)state);
     }
