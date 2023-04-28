@@ -1,4 +1,16 @@
 # classifight
 Khong co cai gi dau
--.- /n
-có mà
+
+-.- 
+
+ có mà
+ 
+Met moi qua
+
+No hope
+
+Toi kho qua
+
+Toi muon nghi le
+
+TT
