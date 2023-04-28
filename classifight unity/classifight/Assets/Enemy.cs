@@ -7,16 +7,19 @@ public class Enemy : MonoBehaviour
 {
     private Animator animator;
     public int maxHealth = 100;
-    int currentHealth;
+    public int currentHealth;
+    public HealthBar healthBar;
     void Start()
     {
-        currentHealth = maxHealth;
         animator = GetComponent<Animator>();
+        currentHealth = maxHealth;
+        healthBar.SetMaxHealth(maxHealth);
     }
     public void TakeDamage(int damage)
     {
 
         currentHealth -= damage;
+        healthBar.SetHealth(currentHealth);
         animator.SetTrigger("Hurt");
         if (currentHealth <= 0)
         {
