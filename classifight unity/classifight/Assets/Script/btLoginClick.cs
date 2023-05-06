@@ -12,6 +12,6 @@ public class btLoginClick : MonoBehaviour
 
     public void LoadScene()
     {
-        SceneManager.LoadScene("Lobby");
+        SceneManager.LoadScene("Terrain2");
     }
 }

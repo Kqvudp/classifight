@@ -21,7 +21,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void spawnPlayer(int _id, string _username, Vector3 _position, Quaternion _rotation) {
+    public void SpawnPlayer(int _id, string _username, Vector3 _position, Quaternion _rotation) {
         GameObject _player;
         if (_id == Client.instance.myId) {
             _player = Instantiate(localPlayerPrefab, _position, _rotation);
