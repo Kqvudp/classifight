@@ -10,6 +10,8 @@ public class UIManager : MonoBehaviour
 
     public GameObject startMenu;
     public InputField usernameFile;
+    public GameObject start;
+    public GameObject play;
 
     private void Awake() {
         if (instance == null) {
@@ -21,8 +23,10 @@ public class UIManager : MonoBehaviour
         }
     }
     public void ConnectToServer() {
-        startMenu.SetActive(false);
-        usernameFile.interactable = false;
+        //startMenu.SetActive(false);
+        //usernameFile.interactable = false;
+        start.SetActive(false);
+        play.SetActive(true);
         Client.instance.ConnectToServer();
     }
 }
