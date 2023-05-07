@@ -5,7 +5,7 @@ using System.Net;
 using System.Net.Sockets;
 using UnityEngine;
 
-public class Client : MonoBehaviour
+public class Client 
 {
     public static int dataBufferSize = 4069;
 
@@ -217,8 +217,12 @@ public class Client : MonoBehaviour
     {
         Debug.Log($"{tcp.socket.Client.RemoteEndPoint} has disconnected.");
 
-        UnityEngine.Object.Destroy(player.gameObject);
-        player = null;
+        ThreadManager.ExecuteOnMainThread(() => {
+            UnityEngine.Object.Destroy(player.gameObject);
+            player = null;
+        });
+
+        
 
         tcp.Disconnect();
         udp.Disconnect();
