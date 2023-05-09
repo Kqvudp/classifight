@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Numerics;
 using System.Text;
+using System.Numerics;
 
 namespace GameServer
 {
@@ -16,7 +16,7 @@ namespace GameServer
         private float moveSpeed = 5f / Constants.TICKS_PER_SEC;
         private bool[] inputs;
 
-        public Player (int _id, string _username, Vector3 _spawnPosition)
+        public Player(int _id, string _username, Vector3 _spawnPosition)
         {
             id = _id;
             username = _username;
@@ -55,7 +55,7 @@ namespace GameServer
             Vector3 _right = Vector3.Normalize(Vector3.Cross(_forward, new Vector3(0, 1, 0)));
 
             Vector3 _moveDirection = _right * _inputDirection.X + _forward * _inputDirection.Y;
-            position += moveSpeed * _moveDirection;
+            position += _moveDirection * moveSpeed;
 
             ServerSend.PlayerPosition(this);
             ServerSend.PlayerRotation(this);

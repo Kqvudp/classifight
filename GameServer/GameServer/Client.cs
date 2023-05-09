@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using System.Text;
 using System.Net;
 using System.Net.Sockets;
-using System.Threading;
 using System.Numerics;
 
 namespace GameServer
 {
     class Client
     {
-        public static int dataBufferSize = 4069;
+        public static int dataBufferSize = 4096;
 
         public int id;
         public Player player;
@@ -49,7 +48,7 @@ namespace GameServer
                 receivedData = new Packet();
                 receiveBuffer = new byte[dataBufferSize];
 
-                stream.BeginRead(receiveBuffer, 0, dataBufferSize, ReceiveCallBack, null);
+                stream.BeginRead(receiveBuffer, 0, dataBufferSize, ReceiveCallback, null);
 
                 ServerSend.Welcome(id, "Welcome to the server!");
             }
@@ -69,7 +68,7 @@ namespace GameServer
                 }
             }
 
-            private void ReceiveCallBack(IAsyncResult _result)
+            private void ReceiveCallback(IAsyncResult _result)
             {
                 try
                 {
@@ -84,7 +83,7 @@ namespace GameServer
                     Array.Copy(receiveBuffer, _data, _byteLength);
 
                     receivedData.Reset(HandleData(_data));
-                    stream.BeginRead(receiveBuffer, 0, dataBufferSize, ReceiveCallBack, null);
+                    stream.BeginRead(receiveBuffer, 0, dataBufferSize, ReceiveCallback, null);
                 }
                 catch (Exception _ex)
                 {
@@ -92,6 +91,7 @@ namespace GameServer
                     Server.clients[id].Disconnect();
                 }
             }
+
             private bool HandleData(byte[] _data)
             {
                 int _packetLength = 0;
@@ -136,9 +136,8 @@ namespace GameServer
                 }
 
                 return false;
-
             }
-        
+
             public void Disconnect()
             {
                 socket.Close();
@@ -148,7 +147,7 @@ namespace GameServer
                 socket = null;
             }
         }
-    
+
         public class UDP
         {
             public IPEndPoint endPoint;
@@ -184,13 +183,13 @@ namespace GameServer
                     }
                 });
             }
-        
+
             public void Disconnect()
             {
                 endPoint = null;
             }
         }
-    
+
         public void SendIntoGame(string _playerName)
         {
             player = new Player(id, _playerName, new Vector3(0, 0, 0));
@@ -214,7 +213,7 @@ namespace GameServer
                 }
             }
         }
-   
+
         private void Disconnect()
         {
             Console.WriteLine($"{tcp.socket.Client.RemoteEndPoint} has disconnected.");

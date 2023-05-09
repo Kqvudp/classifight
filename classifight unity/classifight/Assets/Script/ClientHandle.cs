@@ -14,7 +14,6 @@ public class ClientHandle : MonoBehaviour
         Client.instance.myId = _myId;
         ClientSend.WelcomeReceived();
 
-        // Now that we have the client's id, connect UDP
         Client.instance.udp.Connect(((IPEndPoint)Client.instance.tcp.socket.Client.LocalEndPoint).Port);
     }
 
@@ -35,12 +34,12 @@ public class ClientHandle : MonoBehaviour
 
         GameManager.players[_id].transform.position = _position;
     }
-/*
+
     public static void PlayerRotation(Packet _packet)
     {
         int _id = _packet.ReadInt();
         Quaternion _rotation = _packet.ReadQuaternion();
 
         GameManager.players[_id].transform.rotation = _rotation;
-    }*/
+    }
 }
