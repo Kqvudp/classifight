@@ -4,7 +4,7 @@ using System.Numerics;
 using System.Text;
 
 namespace GameServerNew
-{
+{    
     /// <summary>Sent from server to client.</summary>
     public enum ServerPackets
     {
