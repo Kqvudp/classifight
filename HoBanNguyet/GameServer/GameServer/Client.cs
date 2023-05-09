@@ -3,15 +3,13 @@ using System.Collections.Generic;
 using System.Text;
 using System.Net;
 using System.Net.Sockets;
-using System.Threading;
 using System.Numerics;
-using GameServerNew;
 
-namespace GameServerNew
+namespace GameServer
 {
     class Client
     {
-        public static int dataBufferSize = 4069;
+        public static int dataBufferSize = 4096;
 
         public int id;
         public Player player;
@@ -50,7 +48,7 @@ namespace GameServerNew
                 receivedData = new Packet();
                 receiveBuffer = new byte[dataBufferSize];
 
-                stream.BeginRead(receiveBuffer, 0, dataBufferSize, ReceiveCallBack, null);
+                stream.BeginRead(receiveBuffer, 0, dataBufferSize, ReceiveCallback, null);
 
                 ServerSend.Welcome(id, "Welcome to the server!");
             }
@@ -70,7 +68,7 @@ namespace GameServerNew
                 }
             }
 
-            private void ReceiveCallBack(IAsyncResult _result)
+            private void ReceiveCallback(IAsyncResult _result)
             {
                 try
                 {
@@ -85,7 +83,7 @@ namespace GameServerNew
                     Array.Copy(receiveBuffer, _data, _byteLength);
 
                     receivedData.Reset(HandleData(_data));
-                    stream.BeginRead(receiveBuffer, 0, dataBufferSize, ReceiveCallBack, null);
+                    stream.BeginRead(receiveBuffer, 0, dataBufferSize, ReceiveCallback, null);
                 }
                 catch (Exception _ex)
                 {
@@ -93,6 +91,7 @@ namespace GameServerNew
                     Server.clients[id].Disconnect();
                 }
             }
+
             private bool HandleData(byte[] _data)
             {
                 int _packetLength = 0;
@@ -137,7 +136,6 @@ namespace GameServerNew
                 }
 
                 return false;
-
             }
 
             public void Disconnect()

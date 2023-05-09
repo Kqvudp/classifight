@@ -4,7 +4,7 @@ using System.Text;
 using System.Net;
 using System.Net.Sockets;
 
-namespace GameServerNew
+namespace GameServer
 {
     class Server
     {
@@ -23,22 +23,22 @@ namespace GameServerNew
             Port = _port;
 
             Console.WriteLine("Starting server...");
-            IntitializeServerData();
+            InitializeServerData();
 
             tcpListener = new TcpListener(IPAddress.Any, Port);
             tcpListener.Start();
-            tcpListener.BeginAcceptTcpClient(new AsyncCallback(TCPConnectCallback), null);
+            tcpListener.BeginAcceptTcpClient(TCPConnectCallback, null);
 
             udpListener = new UdpClient(Port);
             udpListener.BeginReceive(UDPReceiveCallback, null);
 
-            Console.WriteLine($"Server started on {Port}.");
+            Console.WriteLine($"Server started on port {Port}.");
         }
 
         private static void TCPConnectCallback(IAsyncResult _result)
         {
             TcpClient _client = tcpListener.EndAcceptTcpClient(_result);
-            tcpListener.BeginAcceptTcpClient(new AsyncCallback(TCPConnectCallback), null);
+            tcpListener.BeginAcceptTcpClient(TCPConnectCallback, null);
             Console.WriteLine($"Incoming connection from {_client.Client.RemoteEndPoint}...");
 
             for (int i = 1; i <= MaxPlayers; i++)
@@ -108,7 +108,7 @@ namespace GameServerNew
             }
         }
 
-        private static void IntitializeServerData()
+        private static void InitializeServerData()
         {
             for (int i = 1; i <= MaxPlayers; i++)
             {

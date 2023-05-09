@@ -1,11 +1,9 @@
-﻿using GameServerNew;
-using Microsoft.VisualBasic;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Numerics;
 using System.Text;
+using System.Numerics;
 
-namespace GameServerNew
+namespace GameServer
 {
     class Player
     {
@@ -57,7 +55,7 @@ namespace GameServerNew
             Vector3 _right = Vector3.Normalize(Vector3.Cross(_forward, new Vector3(0, 1, 0)));
 
             Vector3 _moveDirection = _right * _inputDirection.X + _forward * _inputDirection.Y;
-            position += moveSpeed * _moveDirection;
+            position += _moveDirection * moveSpeed;
 
             ServerSend.PlayerPosition(this);
             ServerSend.PlayerRotation(this);

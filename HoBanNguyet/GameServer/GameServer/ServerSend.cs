@@ -1,17 +1,15 @@
-﻿using GameServerNew;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Numerics;
 using System.Text;
 
-namespace GameServerNew
+namespace GameServer
 {
     class ServerSend
     {
-        private static void SendTCPData(int _tcpClient, Packet _packet)
+        private static void SendTCPData(int _toClient, Packet _packet)
         {
             _packet.WriteLength();
-            Server.clients[_tcpClient].tcp.SendData(_packet);
+            Server.clients[_toClient].tcp.SendData(_packet);
         }
 
         private static void SendUDPData(int _toClient, Packet _packet)
@@ -28,13 +26,15 @@ namespace GameServerNew
                 Server.clients[i].tcp.SendData(_packet);
             }
         }
-
         private static void SendTCPDataToAll(int _exceptClient, Packet _packet)
         {
             _packet.WriteLength();
             for (int i = 1; i <= Server.MaxPlayers; i++)
             {
-                Server.clients[i].tcp.SendData(_packet);
+                if (i != _exceptClient)
+                {
+                    Server.clients[i].tcp.SendData(_packet);
+                }
             }
         }
 
@@ -46,13 +46,15 @@ namespace GameServerNew
                 Server.clients[i].udp.SendData(_packet);
             }
         }
-
         private static void SendUDPDataToAll(int _exceptClient, Packet _packet)
         {
             _packet.WriteLength();
             for (int i = 1; i <= Server.MaxPlayers; i++)
             {
-                Server.clients[i].udp.SendData(_packet);
+                if (i != _exceptClient)
+                {
+                    Server.clients[i].udp.SendData(_packet);
+                }
             }
         }
 
@@ -68,7 +70,7 @@ namespace GameServerNew
             }
         }
 
-        public static void SpawnPlayer(int _tcpClient, Player _player)
+        public static void SpawnPlayer(int _toClient, Player _player)
         {
             using (Packet _packet = new Packet((int)ServerPackets.spawnPlayer))
             {
@@ -77,7 +79,7 @@ namespace GameServerNew
                 _packet.Write(_player.position);
                 _packet.Write(_player.rotation);
 
-                SendTCPData(_tcpClient, _packet);
+                SendTCPData(_toClient, _packet);
             }
         }
 
@@ -101,7 +103,6 @@ namespace GameServerNew
 
                 SendUDPDataToAll(_player.id, _packet);
             }
-
         }
         #endregion
     }

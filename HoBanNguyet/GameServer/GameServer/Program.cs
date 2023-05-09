@@ -1,8 +1,7 @@
-﻿using GameServerNew;
-using System;
+﻿using System;
 using System.Threading;
 
-namespace GameServerNew
+namespace GameServer
 {
     class Program
     {

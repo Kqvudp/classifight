@@ -1,9 +1,8 @@
-﻿using GameServerNew;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace GameServerNew
+namespace GameServer
 {
     class GameLogic
     {
