@@ -16,29 +16,33 @@ public class Server
     private static TcpListener tcpListener;
     private static UdpClient udpListener;
 
+    /// <summary>Starts the server.</summary>
+    /// <param name="_maxPlayers">The maximum players that can be connected simultaneously.</param>
+    /// <param name="_port">The port to start the server on.</param>
     public static void Start(int _maxPlayers, int _port)
     {
         MaxPlayers = _maxPlayers;
         Port = _port;
 
-        Console.WriteLine("Starting server...");
-        IntitializeServerData();
+        Debug.Log("Starting server...");
+        InitializeServerData();
 
         tcpListener = new TcpListener(IPAddress.Any, Port);
         tcpListener.Start();
-        tcpListener.BeginAcceptTcpClient(new AsyncCallback(TCPConnectCallback), null);
+        tcpListener.BeginAcceptTcpClient(TCPConnectCallback, null);
 
         udpListener = new UdpClient(Port);
         udpListener.BeginReceive(UDPReceiveCallback, null);
 
-        Console.WriteLine($"Server started on {Port}.");
+        Debug.Log($"Server started on port {Port}.");
     }
 
+    /// <summary>Handles new TCP connections.</summary>
     private static void TCPConnectCallback(IAsyncResult _result)
     {
         TcpClient _client = tcpListener.EndAcceptTcpClient(_result);
-        tcpListener.BeginAcceptTcpClient(new AsyncCallback(TCPConnectCallback), null);
-        Console.WriteLine($"Incoming connection from {_client.Client.RemoteEndPoint}...");
+        tcpListener.BeginAcceptTcpClient(TCPConnectCallback, null);
+        Debug.Log($"Incoming connection from {_client.Client.RemoteEndPoint}...");
 
         for (int i = 1; i <= MaxPlayers; i++)
         {
@@ -49,9 +53,10 @@ public class Server
             }
         }
 
-        Console.WriteLine($"{_client.Client.RemoteEndPoint} failed to connect: Server full!");
+        Debug.Log($"{_client.Client.RemoteEndPoint} failed to connect: Server full!");
     }
 
+    /// <summary>Receives incoming UDP data.</summary>
     private static void UDPReceiveCallback(IAsyncResult _result)
     {
         try
@@ -76,22 +81,27 @@ public class Server
 
                 if (clients[_clientId].udp.endPoint == null)
                 {
+                    // If this is a new connection
                     clients[_clientId].udp.Connect(_clientEndPoint);
                     return;
                 }
 
                 if (clients[_clientId].udp.endPoint.ToString() == _clientEndPoint.ToString())
                 {
+                    // Ensures that the client is not being impersonated by another by sending a false clientID
                     clients[_clientId].udp.HandleData(_packet);
                 }
             }
         }
         catch (Exception _ex)
         {
-            Console.WriteLine($"Error receiving UDP data: {_ex}");
+            Debug.Log($"Error receiving UDP data: {_ex}");
         }
     }
 
+    /// <summary>Sends a packet to the specified endpoint via UDP.</summary>
+    /// <param name="_clientEndPoint">The endpoint to send the packet to.</param>
+    /// <param name="_packet">The packet to send.</param>
     public static void SendUDPData(IPEndPoint _clientEndPoint, Packet _packet)
     {
         try
@@ -103,11 +113,12 @@ public class Server
         }
         catch (Exception _ex)
         {
-            Console.WriteLine($"Error sending data to {_clientEndPoint} via UDP: {_ex}");
+            Debug.Log($"Error sending data to {_clientEndPoint} via UDP: {_ex}");
         }
     }
 
-    private static void IntitializeServerData()
+    /// <summary>Initializes all necessary server data.</summary>
+    private static void InitializeServerData()
     {
         for (int i = 1; i <= MaxPlayers; i++)
         {
@@ -115,14 +126,15 @@ public class Server
         }
 
         packetHandlers = new Dictionary<int, PacketHandler>()
-            {
-                { (int)ClientPackets.welcomeReceived, ServerHandle.WelcomeReceived },
-                { (int)ClientPackets.playerMovement, ServerHandle.PlayerMovement },
-            };
-        Console.WriteLine("Initialized packets.");
+        {
+            { (int)ClientPackets.welcomeReceived, ServerHandle.WelcomeReceived },
+            { (int)ClientPackets.playerMovement, ServerHandle.PlayerMovement },
+        };
+        Debug.Log("Initialized packets.");
     }
 
-    public static void Stop() {
+    public static void Stop()
+    {
         tcpListener.Stop();
         udpListener.Close();
     }
