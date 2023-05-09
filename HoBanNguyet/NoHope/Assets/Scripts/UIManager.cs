@@ -23,7 +23,6 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    /// <summary>Attempts to connect to the server.</summary>
     public void ConnectToServer()
     {
         startMenu.SetActive(false);

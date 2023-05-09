@@ -178,6 +178,13 @@ public class Packet : IDisposable
         Write(_value.z);
         Write(_value.w);
     }
+    /// <summary>Adds a Vector2 to the packet.</summary>
+    /// <param name="_value">The Vector2 to add.</param>
+    public void Write(Vector2 _value)
+    {
+        Write(_value.x);
+        Write(_value.y);
+    }
     #endregion
 
     #region Read Data
@@ -362,6 +369,10 @@ public class Packet : IDisposable
     public Quaternion ReadQuaternion(bool _moveReadPos = true)
     {
         return new Quaternion(ReadFloat(_moveReadPos), ReadFloat(_moveReadPos), ReadFloat(_moveReadPos), ReadFloat(_moveReadPos));
+    }
+    public Vector2 ReadVector2(bool _moveReadPos = true)
+    {
+        return new Vector2(ReadFloat(_moveReadPos), ReadFloat(_moveReadPos));
     }
     #endregion
 

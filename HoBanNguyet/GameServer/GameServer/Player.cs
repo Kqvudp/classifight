@@ -15,7 +15,6 @@ namespace GameServer
 
         private float moveSpeed = 5f / Constants.TICKS_PER_SEC;
         private bool[] inputs;
-
         public Player(int _id, string _username, Vector3 _spawnPosition)
         {
             id = _id;

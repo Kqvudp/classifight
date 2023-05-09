@@ -94,6 +94,7 @@ namespace GameServer
             }
         }
 
+        
         public static void PlayerRotation(Player _player)
         {
             using (Packet _packet = new Packet((int)ServerPackets.playerRotation))

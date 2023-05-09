@@ -179,6 +179,13 @@ namespace GameServer
             Write(_value.Z);
             Write(_value.W);
         }
+        /// <summary>Adds a Vector2 to the packet.</summary>
+        /// <param name="_value">The Vector2 to add.</param>
+        public void Write(Vector2 _value)
+        {
+            Write(_value.X);
+            Write(_value.Y);
+        }
         #endregion
 
         #region Read Data
@@ -363,6 +370,10 @@ namespace GameServer
         public Quaternion ReadQuaternion(bool _moveReadPos = true)
         {
             return new Quaternion(ReadFloat(_moveReadPos), ReadFloat(_moveReadPos), ReadFloat(_moveReadPos), ReadFloat(_moveReadPos));
+        }
+        public Vector2 ReadVector2(bool _moveReadPos = true)
+        {
+            return new Vector2(ReadFloat(_moveReadPos), ReadFloat(_moveReadPos));
         }
         #endregion
 
