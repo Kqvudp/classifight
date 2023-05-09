@@ -39,7 +39,7 @@ public class Client : MonoBehaviour
         udp = new UDP();
     }
 
-    private void OnApplicatioQuit()
+    private void OnApplicationQuit()
     {
         Disconnect();
     }
@@ -56,9 +56,10 @@ public class Client : MonoBehaviour
     {
         public TcpClient socket;
 
-        public NetworkStream stream;
+        private NetworkStream stream;
         private Packet receivedData;
         private byte[] receiveBuffer;
+
         public void Connect()
         {
             socket = new TcpClient
@@ -68,10 +69,10 @@ public class Client : MonoBehaviour
             };
 
             receiveBuffer = new byte[dataBufferSize];
-            socket.BeginConnect(instance.ip, instance.port, ConnectCallBack, socket);
+            socket.BeginConnect(instance.ip, instance.port, ConnectCallback, socket);
         }
 
-        private void ConnectCallBack(IAsyncResult _result)
+        private void ConnectCallback(IAsyncResult _result)
         {
             socket.EndConnect(_result);
 
@@ -84,7 +85,7 @@ public class Client : MonoBehaviour
 
             receivedData = new Packet();
 
-            stream.BeginRead(receiveBuffer, 0, dataBufferSize, ReceiveCallBack, null);
+            stream.BeginRead(receiveBuffer, 0, dataBufferSize, ReceiveCallback, null);
         }
 
         public void SendData(Packet _packet)
@@ -102,7 +103,7 @@ public class Client : MonoBehaviour
             }
         }
 
-        private void ReceiveCallBack(IAsyncResult _result)
+        private void ReceiveCallback(IAsyncResult _result)
         {
             try
             {
@@ -117,7 +118,7 @@ public class Client : MonoBehaviour
                 Array.Copy(receiveBuffer, _data, _byteLength);
 
                 receivedData.Reset(HandleData(_data));
-                stream.BeginRead(receiveBuffer, 0, dataBufferSize, ReceiveCallBack, null);
+                stream.BeginRead(receiveBuffer, 0, dataBufferSize, ReceiveCallback, null);
             }
             catch
             {
@@ -143,7 +144,8 @@ public class Client : MonoBehaviour
             while (_packetLength > 0 && _packetLength <= receivedData.UnreadLength())
             {
                 byte[] _packetBytes = receivedData.ReadBytes(_packetLength);
-                ThreadManager.ExecuteOnMainThread(() => {
+                ThreadManager.ExecuteOnMainThread(() =>
+                {
                     using (Packet _packet = new Packet(_packetBytes))
                     {
                         int _packetId = _packet.ReadInt();
@@ -196,7 +198,7 @@ public class Client : MonoBehaviour
             socket = new UdpClient(_localPort);
 
             socket.Connect(endPoint);
-            socket.BeginReceive(ReceiveCallBack, null);
+            socket.BeginReceive(ReceiveCallback, null);
 
             using (Packet _packet = new Packet())
             {
@@ -220,12 +222,12 @@ public class Client : MonoBehaviour
             }
         }
 
-        private void ReceiveCallBack(IAsyncResult _result)
+        private void ReceiveCallback(IAsyncResult _result)
         {
             try
             {
                 byte[] _data = socket.EndReceive(_result, ref endPoint);
-                socket.BeginReceive(ReceiveCallBack, null);
+                socket.BeginReceive(ReceiveCallback, null);
 
                 if (_data.Length < 4)
                 {
@@ -249,7 +251,8 @@ public class Client : MonoBehaviour
                 _data = _packet.ReadBytes(_packetLength);
             }
 
-            ThreadManager.ExecuteOnMainThread(() => {
+            ThreadManager.ExecuteOnMainThread(() =>
+            {
                 using (Packet _packet = new Packet(_data))
                 {
                     int _packetId = _packet.ReadInt();
@@ -266,10 +269,11 @@ public class Client : MonoBehaviour
             socket = null;
         }
     }
-
+    
     private void InitializeClientData()
     {
-        packetHandlers = new Dictionary<int, PacketHandler>() {
+        packetHandlers = new Dictionary<int, PacketHandler>()
+        {
             { (int)ServerPackets.welcome, ClientHandle.Welcome },
             { (int)ServerPackets.spawnPlayer, ClientHandle.SpawnPlayer },
             { (int)ServerPackets.playerPosition, ClientHandle.PlayerPosition },
@@ -290,4 +294,3 @@ public class Client : MonoBehaviour
         }
     }
 }
-
