@@ -8,7 +8,9 @@ public class UIManager : MonoBehaviour
     public static UIManager instance;
 
     public GameObject startMenu;
+    public GameObject chatBox;
     public InputField usernameField;
+    public GameObject message;
 
     private void Awake()
     {
@@ -28,5 +30,11 @@ public class UIManager : MonoBehaviour
         startMenu.SetActive(false);
         usernameField.interactable = false;
         Client.instance.ConnectToServer();
+        chatBox.SetActive(true);
+    }
+
+    public void SendMessageToServer(){
+        string _message = message.ToString();
+        ClientSend.Message(_message);
     }
 }

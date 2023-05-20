@@ -16,9 +16,9 @@ public class Player : MonoBehaviour
 
     private void Start() {
         rb = GetComponent<Rigidbody2D>();
-        //gravity *= Time.fixedDeltaTime * Time.fixedDeltaTime;
-        //moveSpeed *= Time.fixedDeltaTime;
-        //jumpSpeed *= Time.fixedDeltaTime;
+        gravity *= Time.fixedDeltaTime * Time.fixedDeltaTime;
+        moveSpeed *= Time.fixedDeltaTime;
+        jumpSpeed *= Time.fixedDeltaTime;
     }
 
     public void Initialize(int _id, string _username)
