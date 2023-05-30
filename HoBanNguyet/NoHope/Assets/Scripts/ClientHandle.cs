@@ -45,6 +45,7 @@ public class ClientHandle : MonoBehaviour
     }
 
     public static void Message(Packet _packet) {
-        int _id = _packet.ReadInt();
+        string _message = _packet.ReadString();
+        
     }
 }

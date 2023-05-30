@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -40,4 +41,8 @@ public class GameManager : MonoBehaviour
         _player.GetComponent<PlayerManager>().username = _username;
         players.Add(_id, _player.GetComponent<PlayerManager>());
     }
+/*
+    public void WriteMessage(string _message) {
+        chatbox.
+    }*/
 }
