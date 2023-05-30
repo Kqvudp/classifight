@@ -66,7 +66,7 @@ public class Player : MonoBehaviour
         }
         yVelocity += gravity;
 
-        rb.MovePosition(rb.position + _moveDirection * Time.fixedDeltaTime);
+        rb.MovePosition(rb.position + _moveDirection);
         rb.AddForce(new Vector2(0f, yVelocity), ForceMode2D.Impulse);
 
         ServerSend.PlayerPosition(this);
