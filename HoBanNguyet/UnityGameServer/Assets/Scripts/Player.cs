@@ -16,9 +16,9 @@ public class Player : MonoBehaviour
 
     private void Start() {
         rb = GetComponent<Rigidbody2D>();
-        //gravity *= Time.fixedDeltaTime * Time.fixedDeltaTime;
-        //moveSpeed *= Time.fixedDeltaTime;
-        //jumpSpeed *= Time.fixedDeltaTime;
+        gravity *= Time.fixedDeltaTime * Time.fixedDeltaTime;
+        moveSpeed *= Time.fixedDeltaTime;
+        jumpSpeed *= Time.fixedDeltaTime;
     }
 
     public void Initialize(int _id, string _username)
@@ -66,7 +66,7 @@ public class Player : MonoBehaviour
         }
         yVelocity += gravity;
 
-        rb.MovePosition(rb.position + _moveDirection * Time.fixedDeltaTime);
+        rb.MovePosition(rb.position + _moveDirection);
         rb.AddForce(new Vector2(0f, yVelocity), ForceMode2D.Impulse);
 
         ServerSend.PlayerPosition(this);

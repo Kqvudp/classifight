@@ -42,5 +42,14 @@ public class ClientSend : MonoBehaviour
             SendUDPData(_packet);
         }
     }
+
+    public static void Message(string _message){
+        using (Packet _packet = new Packet((int)ClientPackets.Message))
+        {
+            _packet.Write(_message);
+
+            SendUDPData(_packet);
+        }
+    }
     #endregion
 }
