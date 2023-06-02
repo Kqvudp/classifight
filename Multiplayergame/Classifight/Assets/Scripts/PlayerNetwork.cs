@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
@@ -26,7 +26,7 @@ public class PlayerNetwork : NetworkBehaviour
     {
         if (!IsOwner) return;
         float dirX = Input.GetAxisRaw("Horizontal");
-        rb.velocity = new Vector2(dirX * 7f, rb.velocity.y);
+        rb.velocity = new Vector2(dirX * 7f, rb.velocity.y); // đụ mẹ nghĩa
         checkJump = (Input.GetKeyDown(KeyCode.W));
         if (checkJump)
         {
