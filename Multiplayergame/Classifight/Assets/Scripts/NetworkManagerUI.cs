@@ -5,6 +5,8 @@ using UnityEngine;
 using UnityEngine.UI;
 public class NetworkManagerUI : MonoBehaviour
 {
+    public GameObject chat;
+
     [SerializeField] private Button hostBtn;
     [SerializeField] private Button clientBtn;
 
@@ -12,10 +14,12 @@ public class NetworkManagerUI : MonoBehaviour
     {
         hostBtn.onClick.AddListener(() =>
         {
+            chat.SetActive(true);
             NetworkManager.Singleton.StartHost();
         });
         clientBtn.onClick.AddListener(() =>
         {
+            chat.SetActive(true);
             NetworkManager.Singleton.StartClient();
         });
     }
