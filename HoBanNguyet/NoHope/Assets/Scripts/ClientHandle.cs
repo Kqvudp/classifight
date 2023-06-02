@@ -46,6 +46,7 @@ public class ClientHandle : MonoBehaviour
 
     public static void Message(Packet _packet) {
         string _message = _packet.ReadString();
-        
+        Debug.Log($"recevi msg {_message}");
+        ChatManager.instance.AddChat(_message);
     }
 }

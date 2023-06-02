@@ -30,6 +30,7 @@ public class ServerSend
         for (int i = 1; i <= Server.MaxPlayers; i++)
         {
             Server.clients[i].tcp.SendData(_packet);
+            Debug.Log("sent "+ i);
         }
     }
     /// <summary>Sends a packet to all clients except one via TCP.</summary>
@@ -126,6 +127,14 @@ public class ServerSend
             _packet.Write(_player.transform.rotation);
 
             SendUDPDataToAll(_player.id, _packet);
+        }
+    }
+
+    public static void Message(string _msg) {
+        using (Packet _packet = new Packet((int)ServerPackets.message)) {
+        _packet.Write(_msg);
+
+        SendTCPDataToAll(_packet);
         }
     }
     #endregion

@@ -12,6 +12,18 @@ public class GameManager : MonoBehaviour
     public GameObject localPlayerPrefab;
     public GameObject playerPrefab;
 
+ /*   public Text chatText;
+    Stack<string> chat = new Stack<string>();
+    int maxMessage = 30;
+
+    public static ChatManager ins;
+    public InputField inputField;*/
+
+    void Start()
+    {
+        
+    }
+
     private void Awake()
     {
         if (instance == null)
@@ -41,8 +53,13 @@ public class GameManager : MonoBehaviour
         _player.GetComponent<PlayerManager>().username = _username;
         players.Add(_id, _player.GetComponent<PlayerManager>());
     }
-/*
-    public void WriteMessage(string _message) {
-        chatbox.
+
+   /* public static AddChat(int _id, string msg) {
+        chat.Push("> " + v);
+        if (chat.Count > maxMessage)
+            chat.Pop();
+        
+        // convert stack to array, separate with \n
+        chatText.text = string.Join("\n", chat);
     }*/
 }

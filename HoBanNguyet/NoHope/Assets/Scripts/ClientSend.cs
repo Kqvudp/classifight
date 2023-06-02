@@ -44,11 +44,12 @@ public class ClientSend : MonoBehaviour
     }
 
     public static void Message(string _message){
-        using (Packet _packet = new Packet((int)ClientPackets.Message))
+        using (Packet _packet = new Packet((int)ClientPackets.message))
         {
+            _packet.Write(Client.instance.myId);
             _packet.Write(_message);
 
-            SendUDPData(_packet);
+            SendTCPData(_packet);
         }
     }
     #endregion
