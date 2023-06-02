@@ -858,8 +858,13 @@ MonoBehaviour:
     PlayerPrefab: {fileID: 3380383900558517059, guid: 8bb98d6baa4d63d479a858561ce41563, type: 3}
     NetworkPrefabs:
     - Override: 0
+<<<<<<< HEAD
       Prefab: {fileID: 6311432849699630592, guid: ebc1f2ac3d84d29468d76c652c2fb67f, type: 3}
       SourcePrefabToOverride: {fileID: 0}
+=======
+      Prefab: {fileID: 6280619397100141235, guid: 1fb5ce3f269e3464a84ca4541cf5b9ef, type: 3}
+      SourcePrefabToOverride: {fileID: 640464980}
+>>>>>>> parent of 37d0787 (dumenghia)
       SourceHashToOverride: 0
       OverridingTargetPrefab: {fileID: 0}
     TickRate: 30
