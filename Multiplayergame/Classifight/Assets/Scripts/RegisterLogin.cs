@@ -1,9 +1,13 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
+using System.Security.Cryptography;
+using System.Text;
+using System;
+
 public class RegisterLogin : MonoBehaviour
 {
 
@@ -48,28 +52,38 @@ public class RegisterLogin : MonoBehaviour
     }
     IEnumerator RegisterNewAccount(string uName, string pWord, string cfpWord)
     {
-        WWWForm form = new WWWForm();
-        form.AddField("newAccountUsername", uName);
-        form.AddField("newAccountPassword", pWord);
-        form.AddField("newAccountConfirmPassword", cfpWord);
-        using (UnityWebRequest www = UnityWebRequest.Post(baseUrl, form))
+        if (pWord != cfpWord)
         {
-            www.downloadHandler = new DownloadHandlerBuffer();
-            yield return www.SendWebRequest();
+            info.text = "The confirm password is incorrect, please type again";
+        }
+        else
+        {
+            pWord = HashPassword(pWord);
+            WWWForm form = new WWWForm();
+            form.AddField("newAccountUsername", uName);
+            form.AddField("newAccountPassword", pWord);
 
-            if (www.isNetworkError)
+            using (UnityWebRequest www = UnityWebRequest.Post(baseUrl, form))
             {
-                Debug.Log(www.error);
-            }
-            else
-            {
-                string responseText = www.downloadHandler.text;
-                info.text = responseText;
+                www.downloadHandler = new DownloadHandlerBuffer();
+                yield return www.SendWebRequest();
+
+                if (www.isNetworkError)
+                {
+                    Debug.Log(www.error);
+                }
+                else
+                {
+                    string responseText = www.downloadHandler.text;
+                    info.text = responseText;
+                }
             }
         }
+
     }
     IEnumerator LoginAccount(string uName, string pWord)
     {
+        pWord = HashPassword(pWord);
         WWWForm form = new WWWForm();
         form.AddField("loginUsername", uName);
         form.AddField("loginPassword", pWord);
@@ -85,8 +99,25 @@ public class RegisterLogin : MonoBehaviour
             else
             {
                 string responseText = www.downloadHandler.text;
-                SceneManager.LoadScene("MainScenes");
+                if (responseText == "200") SceneManager.LoadScene("MainScenes");
+                else info.text = responseText;
             }
+        }
+    }
+    static string HashPassword(string password)
+    {
+        using (SHA256 sha256 = SHA256.Create())
+        {
+            // Chuyển đổi chuỗi thành mảng byte
+            byte[] bytes = Encoding.UTF8.GetBytes(password);
+
+            // Băm dữ liệu
+            byte[] hashBytes = sha256.ComputeHash(bytes);
+
+            // Chuyển đổi mảng byte thành chuỗi hexa
+            string hash = BitConverter.ToString(hashBytes).Replace("-", String.Empty);
+
+            return hash;
         }
     }
 }
