@@ -28,4 +28,12 @@ public class ServerHandle
 
         Server.clients[_fromClient].player.SetInput(_inputs, _rotation);
     }
+
+    public static void Message(int _fromClient, Packet _packet) {
+        int _id = _packet.ReadInt();
+        string _message = _packet.ReadString();
+        _message = _id.ToString() + ": " + _message;
+        
+        ServerSend.Message(_message);
+    }
 }

@@ -50,6 +50,7 @@ public class Player : MonoBehaviour
         }
 
         Move(_inputDirection);
+        
     }
 
     private void Move(Vector2 _inputDirection)
