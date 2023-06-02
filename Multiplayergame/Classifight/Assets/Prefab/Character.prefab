@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 859199738713853581}
   - component: {fileID: 859199738713853582}
   - component: {fileID: 859199738713853619}
+  - component: {fileID: 7471375449964900280}
   m_Layer: 0
   m_Name: Character
   m_TagString: Untagged
@@ -103,18 +104,18 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.04957056, y: -0.67746377}
+  m_Offset: {x: 0.1859299, y: -1.5690438}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 5.688889, y: 2.8444445}
+    oldSize: {x: 14.6285715, y: 7.3142858}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.5996494, y: 1.258188}
+  m_Size: {x: 1.627589, y: 3.586785}
   m_EdgeRadius: 0
 --- !u!114 &859199738713853576
 MonoBehaviour:
@@ -144,7 +145,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e14a3ef4cd049f4a9dddedc9b9a2731, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 4
+  moveSpeed: 6
+  jumpForce: 38
 --- !u!114 &859199738713853581
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -213,3 +215,15 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &7471375449964900280
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 859199738713853579}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80d7c879794dfda4687da0e400131852, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

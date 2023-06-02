@@ -13,6 +13,7 @@ public class PlayerNetwork : NetworkBehaviour
     private enum MovementState { idle, running, jumping, attacking}
     private Animator anim;
     private bool checkJump = false;
+    public float jumpForce = 38f;
 
     private void Start()
     {
@@ -26,11 +27,11 @@ public class PlayerNetwork : NetworkBehaviour
     {
         if (!IsOwner) return;
         float dirX = Input.GetAxisRaw("Horizontal");
-        rb.velocity = new Vector2(dirX * 7f, rb.velocity.y);
+        rb.velocity = new Vector2(dirX * 10f, rb.velocity.y);
         checkJump = (Input.GetKeyDown(KeyCode.W));
         if (checkJump)
         {
-            rb.velocity = new Vector2(rb.velocity.x, 7f);
+            rb.velocity = new Vector2(rb.velocity.x, jumpForce);
             state = MovementState.jumping;
         }
         else 
