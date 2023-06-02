@@ -81,7 +81,7 @@ public class RegisterLogin : MonoBehaviour
         }
 
     }
-    IEnumerator LoginAccount(string uName, string pWord)
+    IEnumerator LoginAccount(string uName, string pWord) //đụ mẹ đức hoàng
     {
         pWord = HashPassword(pWord);
         WWWForm form = new WWWForm();
